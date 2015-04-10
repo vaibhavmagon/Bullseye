@@ -1,0 +1,65 @@
+<div id="wrapper" ng-controller="DashBoardCtrl">
+    <div class="container">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+        <div class="col-md-1" id="steps" ng-repeat="timeRange in timeRanges track by $index">
+            <a ng-click="activeTimeRangeFunction(timeRange)" class="step {{timeRange.completeness}}" data-desc="{{timeRange.name}}">{{timeRange.quarter}}</a>
+        </div>
+        <div class="row">
+            <h1>{{ activeTimeRange.name }}</h1>
+        </div>
+        <div class="row ng-cloak">
+            <div class="col-md-3">
+                <div class="row">
+                    <h4>In Discussion</h4>
+                </div>
+                <div class="row form-inline thumbnail" style="text-align: center;">
+                    <div class="btn btn-droppable" ng-repeat="item in list5" data-drop="true" ng-model='list5' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=list5])'}"  jqyoui-droppable="{index: {{$index}}}">
+                        <a ng-dblclick="editMilestone(item)" class="btn btn-info btn-draggable" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list5" jqyoui-draggable="{index: {{$index}},placeholder:true,animate:true}" ng-hide="!item.title">{{item.title}}</a>
+                    </div>
+                </div>
+            </div>
+            <ul class="col-md-9 scrum">
+                <li class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>Finalized</h4>
+                        </div>
+                    </div>
+                    <div class="thumbnail" data-drop="true" ng-model='list1' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=list1])'}" jqyoui-droppable="{multiple:true}">
+                        <div class="caption">
+                            <a ng-dblclick="editMilestone(item)" class="btn btn-info btn-draggable" ng-repeat="item in list1" ng-show="item.title" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list1" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.title}}</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>Development</h4>
+                        </div>
+                    </div>
+                    <div class="thumbnail" data-drop="true" ng-model='list2' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=list2])'}"  jqyoui-droppable="{multiple:true}">
+                        <div class="caption">
+                            <a ng-dblclick="editMilestone(item)" class="btn btn-info btn-draggable" ng-repeat="item in list2" ng-show="item.title" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list2" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.title}}</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>Achievements</h4>
+                        </div>
+                    </div>
+                    <div class="thumbnail" data-drop="true" ng-model='list3' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=list3])'}"  jqyoui-droppable="{multiple:true}">
+                        <div class="caption">
+                            <a ng-dblclick="editMilestone(item)" class="btn btn-info btn-draggable" ng-repeat="item in list3" ng-show="item.title" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list3" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.title}}</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <div id="container" style="min-width: 310px; height: 300px; margin: 0 auto"></div>
+        </div>
+    </div>
+</div>
+
