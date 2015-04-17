@@ -78,49 +78,12 @@ milestonesApp.controller("DashBoardCtrl", function($rootScope,$scope, $http) {
             }
 
         ];
+
         var itrmArr = [];
         for(var i=0;i<$scope.timeRanges.length;i++){
             var obj={name:$scope.timeRanges[i].name,data:[$scope.timeRanges[i].tasksCompleted]};
             itrmArr.push(obj);
         }
-
-        var options = {
-            chart: {
-                type: 'bar'
-            },
-            title: {
-                text: 'User Module',
-                x: -20 //center
-            },
-            xAxis: {
-                title: {
-                    text: 'Post Stats'
-                },
-                categories: ['Post Data']
-            },
-            yAxis: {
-                title: {
-                    text: 'Id associated'
-                },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }]
-            },
-            tooltip: {
-                valueSuffix: ''
-            },
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'middle',
-                borderWidth: 0
-            },
-            series: itrmArr
-        };
-
-        $('#container').highcharts(options);
 
         $scope.activeTimeRange = $scope.timeRanges[0];
 
@@ -191,7 +154,7 @@ milestonesApp.controller("DashBoardCtrl", function($rootScope,$scope, $http) {
             console.log("Error In webLandingPage",data);
             $scope.message = data.message;
         });*/
-        
+
 
   /*  } else {
         $location.path("/login");

@@ -2,5 +2,20 @@
   "db": {
     "name": "db",
     "connector": "memory"
+  },
+  "storage": {
+    "name": "storage"
+  },
+  "trelloDb": {
+    "host": "127.0.0.1",
+    "port": 27017,
+    "database": "trelloDb",
+    "name": "trelloDb",
+    "connector": "mongodb"
+  },
+  "bullsEye": {
+    "name": "bullsEye",
+    "connector": "mongodb"
+
   }
 }

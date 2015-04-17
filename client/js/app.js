@@ -4,8 +4,8 @@ var milestonesApp = angular.module('milestonesApp', ['ngResource','lbServices','
 milestonesApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider,$httpProvider) {
     $routeProvider
         .when("/", {redirectTo: "/dashBoard"}) //login
-        .when("/dashBoard", {templateUrl: "client/dashboard/partials/dashboard.html", controller: "DashBoardCtrl"})
-        .when("/login", {templateUrl: "client/login/partials/login.html", controller: "LoginCtrl"})
+        .when("/dashBoard", {templateUrl: "dashboard/partials/dashboard.html", controller: "DashBoardCtrl"})
+        .when("/login", {templateUrl: "login/partials/login.html", controller: "LoginCtrl"})
         .otherwise('/');
 }]);
 

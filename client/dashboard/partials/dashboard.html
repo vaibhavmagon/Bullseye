@@ -1,12 +1,12 @@
 <div id="wrapper" ng-controller="DashBoardCtrl">
     <div class="container">
         <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-        <div class="col-md-1" id="steps" ng-repeat="timeRange in timeRanges track by $index">
+        <!--<div class="col-md-1" id="steps" ng-repeat="timeRange in timeRanges track by $index">
             <a ng-click="activeTimeRangeFunction(timeRange)" class="step {{timeRange.completeness}}" data-desc="{{timeRange.name}}">{{timeRange.quarter}}</a>
         </div>
         <div class="row">
             <h1>{{ activeTimeRange.name }}</h1>
-        </div>
+        </div>-->
         <div class="row ng-cloak">
             <div class="col-md-3">
                 <div class="row">
@@ -56,9 +56,6 @@
                     </div>
                 </li>
             </ul>
-        </div>
-        <div class="row">
-            <div id="container" style="min-width: 310px; height: 300px; margin: 0 auto"></div>
         </div>
     </div>
 </div>

@@ -1,0 +1,26 @@
+{
+  "name": "user",
+  "plural": "users",
+  "base": "PersistedModel",
+  "mongodb": {
+    "collection": "User"
+  },
+  "idInjection": true,
+  "properties": {
+    "email": {
+      "type": "string",
+      "required": true
+    },
+    "password": {
+      "type": "string",
+      "required": true
+    },
+    "name": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": []
+}
