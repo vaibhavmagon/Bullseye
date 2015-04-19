@@ -21,6 +21,11 @@
   },
   "validations": [],
   "relations": {
+    "posts": {
+      "type": "hasMany",
+      "model": "posts",
+      "foreignKey": ""
+    }
   },
   "acls": [],
   "methods": []

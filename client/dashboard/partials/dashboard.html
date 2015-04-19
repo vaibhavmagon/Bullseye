@@ -29,23 +29,23 @@
                         </div>
                     </div>
                     <div ng-if="list.listArr == 'list1'" class="row form-inline thumbnail" style="text-align: center;">
-                      <div class="btn btn-droppable" ng-repeat="item in defaultList" data-drop="true" ng-model='defaultList' jqyoui-droppable="{index: {{$index}},onDrop:'dropCallback'}">
-                        <a ng-dblclick="editMilestone(item)" class="btn btn-info btn-draggable" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="defaultList" jqyoui-draggable="{index: {{$index}},placeholder:true,animate:true}" ng-hide="!item.title">{{item.title}}</a>
+                      <div class="btn btn-droppable" ng-repeat="item in defaultList" data-drop="true" ng-model='defaultList' jqyoui-droppable="{index: {{$index}},onDrop:'dropCallback(list,item)'}">
+                        <a ng-click="itemInfo(item)" ng-dblclick="editMilestone(item)" class="btn btn-info btn-draggable" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="defaultList" jqyoui-draggable="{index: {{$index}},placeholder:true,animate:true}" ng-hide="!item.title">{{item.title}}</a>
                       </div>
                     </div>
-                    <div ng-if="list.listArr == 'list2'" class="row form-inline thumbnail" data-drop="true" ng-model="list1" jqyoui-droppable="{multiple:true,onDrop:'dropCallback'}">
+                    <div ng-if="list.listArr == 'list2'" class="row form-inline thumbnail" data-drop="true" ng-model="list1" jqyoui-droppable="{multiple:true,onDrop:'dropCallback(list,item)'}">
                       <div class="caption">
-                        <a ng-dblclick="editMilestone(item)" class="btn btn-info btn-draggable" ng-repeat="item in list1 track by $index" ng-show="item.title" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list1" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.title}}</a>
+                        <a ng-click="itemInfo(item)" ng-dblclick="editMilestone(item)" class="btn btn-info btn-draggable" ng-repeat="item in list1 track by $index" ng-show="item.title" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list1" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.title}}</a>
                       </div>
                     </div>
-                    <div ng-if="list.listArr == 'list3'" class="row form-inline thumbnail" data-drop="true" ng-model="list2" jqyoui-droppable="{multiple:true,onDrop:'dropCallback'}">
+                    <div ng-if="list.listArr == 'list3'" class="row form-inline thumbnail" data-drop="true" ng-model="list2" jqyoui-droppable="{multiple:true,onDrop:'dropCallback(list,item)'}">
                       <div class="caption">
-                        <a ng-dblclick="editMilestone(item)" class="btn btn-info btn-draggable" ng-repeat="item in list2 track by $index" ng-show="item.title" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list2" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.title}}</a>
+                        <a ng-click="itemInfo(item)" ng-dblclick="editMilestone(item)" class="btn btn-info btn-draggable" ng-repeat="item in list2 track by $index" ng-show="item.title" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list2" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.title}}</a>
                       </div>
                     </div>
-                    <div ng-if="list.listArr == 'list4'" class="row form-inline thumbnail" data-drop="true" ng-model="list3" jqyoui-droppable="{multiple:true,onDrop:'dropCallback'}">
+                    <div ng-if="list.listArr == 'list4'" class="row form-inline thumbnail" data-drop="true" ng-model="list3" jqyoui-droppable="{multiple:true,onDrop:'dropCallback(list,item)'}">
                       <div class="caption">
-                        <a ng-dblclick="editMilestone(item)" class="btn btn-info btn-draggable" ng-repeat="item in list3 track by $index" ng-show="item.title" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list3" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.title}}</a>
+                        <a ng-click="itemInfo(item)" ng-dblclick="editMilestone(item)" class="btn btn-info btn-draggable" ng-repeat="item in list3 track by $index" ng-show="item.title" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list3" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.title}}</a>
                       </div>
                     </div>
                 </li>

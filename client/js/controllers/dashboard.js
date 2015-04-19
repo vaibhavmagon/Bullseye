@@ -1,14 +1,18 @@
 milestonesApp.controller("DashBoardCtrl", ['$rootScope','$scope', '$routeParams', 'User','List', 'Post', '$location','$http','$parse',
   function($rootScope,$scope,$routeParams,User,List,Post,$location,$http,$parse) {
 
-    var boardId = "1";
+    var boardId = "1"; // By Default Taking Only One Board.
     /*if ($rootScope.authenticated == true) {*/
 
-    $scope.defaultList = [];
-    $scope.lists = [];
-   /* $scope.list1 = [];
-    $scope.list2 = [];
-    $scope.list3 = [];*/
+    $scope.defaultList = []; //default List Holder
+    $scope.lists = []; //total List Holder
+
+    $scope.activePost = {};
+
+    $scope.itemInfo = function(item){
+      $scope.activePost = item;
+      console.log("***************", $scope.activePost);
+    }
 
     $scope.editMode = false;
 
@@ -25,13 +29,12 @@ milestonesApp.controller("DashBoardCtrl", ['$rootScope','$scope', '$routeParams'
         List.create({
           listName: $scope.listData.name,
           listDescription: $scope.listData.data,
-          boardId: "1"
+          boardId: boardId
         }, function (err, data) {
           if (err) {
             console.log(err);
           }
-          $scope.lists.push({listName: $scope.listData.name, listDescription: $scope.listData.data, boardId: "1"});
-          loadLists();
+          $scope.lists.push({listName: $scope.listData.name, listDescription: $scope.listData.data, boardId: boardId});
           $scope.listData = {};
         });
       }else{
@@ -44,19 +47,17 @@ milestonesApp.controller("DashBoardCtrl", ['$rootScope','$scope', '$routeParams'
     $scope.postData.name = "";
 
     $scope.submitPost=function(){
-      Post.create({title: $scope.postData.name,content:$scope.postData.data,stage:"isDiscussion",boardId:"1"}, function (err,data) {
+      Post.create({title: $scope.postData.name,content:$scope.postData.data,stage:"list1",boardId:boardId}, function (err,data) {
         if(err){
           console.log(err);
         }
-        $scope.defaultList.push({title: $scope.postData.name,content:$scope.postData.data,stage:"isDiscussion",boardId:"1"});
-        loadPosts();
+        $scope.defaultList.push({title: $scope.postData.name,content:$scope.postData.data,stage:"list1",boardId:boardId});
         $scope.postData = {};
       });
     };
 
     $scope.deleteList=function(ele){
        List.delete({id:ele.id},function(lists){
-         loadLists();
        });
     }
 
@@ -75,15 +76,13 @@ milestonesApp.controller("DashBoardCtrl", ['$rootScope','$scope', '$routeParams'
 
     $scope.editSavePost = function(editPostData){
       Post.prototype$updateAttributes({id: editPostData.id}, editPostData, function (resp) {
-        loadPosts();
         $scope.editPostData = {};
         $scope.editMode = false;
       });
     }
 
     $scope.deletePost=function(ele){
-      List.delete({id:ele.id},function(lists){
-        loadPosts();
+      Post.delete({id:ele.id},function(posts){
         $scope.editMode = false;
       });
     }
@@ -92,13 +91,11 @@ milestonesApp.controller("DashBoardCtrl", ['$rootScope','$scope', '$routeParams'
       $scope.editMode = ele;
     }
 
-    var arrList = [];
     function loadLists(){
         List.getLists({boardId: boardId}, function (lists) {
           $scope.lists = lists;
           angular.forEach($scope.lists, function (item) {
             var listName = item.listArr;
-            arrList.push(listName);
             $scope[listName] = [];
           });
         });
@@ -106,21 +103,25 @@ milestonesApp.controller("DashBoardCtrl", ['$rootScope','$scope', '$routeParams'
 
     function loadPosts(){
       Post.getPosts({boardId:boardId}, function (posts) {
-        $scope.defaultList = posts;
+        for(var i=0;i<posts.length;i++){
+          if(posts[i].stage == 'list2'){
+            $scope.list1.push(posts[i]);
+          }else if(posts[i].stage == 'list3'){
+            $scope.list2.push(posts[i]);
+          }else if(posts[i].stage == 'list4'){
+            $scope.list3.push(posts[i]);
+          }else {
+            $scope.defaultList.push(posts[i]);
+          }
+        }
       });
     };
 
-    $scope.dropCallback = function(event, ui) {
-      for(var i=0;i<arrList.length;i++){
-        var listName = arrList[i];
-        console.log($scope[listName]);
-        var length = $scope[listName].length;
-        if(length){
-          length = length+1;
-          console.log("$$$$$$$$$$$$$",listName);
-        }
-      }
-      console.log('hey, you dumped me :-(' , ui);
+    $scope.dropCallback = function(event,ui,element,item) {
+      var obj = {stage: element.listArr};
+      Post.prototype$updateAttributes({id: $scope.activePost.id}, obj, function (posts) {
+        console.log("Updated Post: ",posts)
+      });
     };
 
     $scope.error = false;

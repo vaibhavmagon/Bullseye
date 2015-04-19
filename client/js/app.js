@@ -1,5 +1,5 @@
 'use strict';
-var milestonesApp = angular.module('milestonesApp', ['ngResource','lbServices','ngRoute','ui.bootstrap','ngDragDrop','xeditable']);
+var milestonesApp = angular.module('milestonesApp', ['dndLists','ngResource','lbServices','ngRoute','ui.bootstrap','ngDragDrop','xeditable']);
 
 milestonesApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider,$httpProvider) {
     $routeProvider

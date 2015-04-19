@@ -25,6 +25,11 @@
   },
   "validations": [],
   "relations": {
+    "list": {
+      "type": "belongsTo",
+      "model": "list",
+      "foreignKey": ""
+    }
   },
   "acls": [],
   "methods": []
