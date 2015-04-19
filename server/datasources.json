@@ -16,6 +16,5 @@
   "bullsEye": {
     "name": "bullsEye",
     "connector": "mongodb"
-
   }
 }

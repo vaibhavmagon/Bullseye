@@ -1,26 +1,27 @@
 {
-  "name": "user",
-  "plural": "users",
+  "name": "list",
+  "plural": "lists",
   "base": "PersistedModel",
   "idInjection": true,
   "mongodb": {
-    "collection": "User"
+    "collection": "List"
   },
   "properties": {
-    "email": {
+    "listName": {
       "type": "string",
       "required": true
     },
-    "password": {
-      "type": "string",
-      "required": true
-    },
-    "name": {
+    "listDescription": {
       "type": "string"
+    },
+    "boardId": {
+      "type": "string",
+      "required": true
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+  },
   "acls": [],
   "methods": []
 }

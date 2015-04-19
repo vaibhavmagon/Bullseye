@@ -1,164 +1,134 @@
-milestonesApp.controller("DashBoardCtrl", function($rootScope,$scope, $http) {
+milestonesApp.controller("DashBoardCtrl", ['$rootScope','$scope', '$routeParams', 'User','List', 'Post', '$location','$http','$parse',
+  function($rootScope,$scope,$routeParams,User,List,Post,$location,$http,$parse) {
 
+    var boardId = "1";
     /*if ($rootScope.authenticated == true) {*/
 
-        $scope.timeRanges = [
-            {
-                "name":"January",
-                "quarter":"1",
-                "completeness":"done",
-                "tasksCompleted" : 40,
-                "starPerformers" : [] //users
+    $scope.defaultList = [];
+    $scope.lists = [];
+   /* $scope.list1 = [];
+    $scope.list2 = [];
+    $scope.list3 = [];*/
 
-            },
-            {
-                "name":"February",
-                "quarter":"1",
-                "completeness":"done",
-                "tasksCompleted" : 28
-            },
-            {
-                "name":"March",
-                "quarter":"1",
-                "completeness":"done",
-                "tasksCompleted" : 30
-            },
-            {
-                "name":"April",
-                "quarter":"2",
-                "completeness":"active",
-                "tasksCompleted" : 35
-            },
-            {
-                "name":"May",
-                "quarter":"2",
-                "completeness":"",
-                "tasksCompleted" : 12
-            },{
-                "name":"June",
-                "quarter":"2",
-                "completeness":"",
-                "tasksCompleted" : 40
-            },
-            {
-                "name":"July",
-                "quarter":"3",
-                "completeness":"",
-                "tasksCompleted" : 50
-            },
-            {
-                "name":"August",
-                "quarter":"3",
-                "completeness":"",
-                "tasksCompleted" : 13
-            },
-            {
-                "name":"September",
-                "quarter":"3",
-                "completeness":"",
-                "tasksCompleted" : 17
-            },
-            {
-                "name":"October",
-                "quarter":"4",
-                "completeness":"",
-                "tasksCompleted" : 21
-            },
-            {
-                "name":"November",
-                "quarter":"4",
-                "completeness":"",
-                "tasksCompleted" : 29
-            },
-            {
-                "name":"December",
-                "quarter":"4",
-                "completeness":"",
-                "tasksCompleted" : 18
-            }
+    $scope.editMode = false;
 
-        ];
+    var lists = loadLists();
 
-        var itrmArr = [];
-        for(var i=0;i<$scope.timeRanges.length;i++){
-            var obj={name:$scope.timeRanges[i].name,data:[$scope.timeRanges[i].tasksCompleted]};
-            itrmArr.push(obj);
+    var posts = loadPosts();
+
+    $scope.listData = {};
+    $scope.listData.data = "";
+    $scope.listData.name = "";
+
+    $scope.submitList=function(){
+      if($scope.lists.length < 4) {
+        List.create({
+          listName: $scope.listData.name,
+          listDescription: $scope.listData.data,
+          boardId: "1"
+        }, function (err, data) {
+          if (err) {
+            console.log(err);
+          }
+          $scope.lists.push({listName: $scope.listData.name, listDescription: $scope.listData.data, boardId: "1"});
+          loadLists();
+          $scope.listData = {};
+        });
+      }else{
+        alert("Maximum Reached!!! Cant be more than 4 lists in one board");
+      }
+    };
+
+    $scope.postData = {};
+    $scope.postData.data = "";
+    $scope.postData.name = "";
+
+    $scope.submitPost=function(){
+      Post.create({title: $scope.postData.name,content:$scope.postData.data,stage:"isDiscussion",boardId:"1"}, function (err,data) {
+        if(err){
+          console.log(err);
         }
+        $scope.defaultList.push({title: $scope.postData.name,content:$scope.postData.data,stage:"isDiscussion",boardId:"1"});
+        loadPosts();
+        $scope.postData = {};
+      });
+    };
 
-        $scope.activeTimeRange = $scope.timeRanges[0];
+    $scope.deleteList=function(ele){
+       List.delete({id:ele.id},function(lists){
+         loadLists();
+       });
+    }
 
-        $scope.activeTimeRangeFunction = function(item){
-            $scope.activeTimeRange = item;
-        };
+    $scope.editPostData = {};
+    $scope.editPostData.content = "";
+    $scope.editPostData.title = "";
 
-        $scope.editMilestone = function(item){
-            console.log("%%%%%%%%%%%%%%%%%%",item);
-        };
+    $scope.editMilestone = function(item){
+      $("#editModal").modal("show");
+      $scope.editPostData.content = item.content;
+      $scope.editPostData.title = item.title;
+      $scope.editPostData.stage = item.stage;
+      $scope.editPostData.id = item.id;
+      $scope.editPostData.boardId = item.boardId;
+    };
 
-        $scope.list1 = [];
-        $scope.list2 = [];
-        $scope.list3 = [];
+    $scope.editSavePost = function(editPostData){
+      Post.prototype$updateAttributes({id: editPostData.id}, editPostData, function (resp) {
+        loadPosts();
+        $scope.editPostData = {};
+        $scope.editMode = false;
+      });
+    }
 
-        $scope.list5 = [
-            { 'title': 'Item 1', 'drag': true },
-            { 'title': 'Item 2', 'drag': true },
-            { 'title': 'Item 3', 'drag': true },
-            { 'title': 'Item 4', 'drag': true },
-            { 'title': 'Item 5', 'drag': true },
-            { 'title': 'Item 6', 'drag': true },
-            { 'title': 'Item 7', 'drag': true },
-            { 'title': 'Item 8', 'drag': true }
-        ];
+    $scope.deletePost=function(ele){
+      List.delete({id:ele.id},function(lists){
+        loadPosts();
+        $scope.editMode = false;
+      });
+    }
 
-        // Limit items to be dropped in list1
-        $scope.optionsList1 = {
-            accept: function(dragEl) {
-                if ($scope.list1.length >= 2) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        };
+    $scope.togglePost = function(ele){
+      $scope.editMode = ele;
+    }
 
-        $scope.error = false;
-        var presentUser = $rootScope.currentUser;
+    var arrList = [];
+    function loadLists(){
+        List.getLists({boardId: boardId}, function (lists) {
+          $scope.lists = lists;
+          angular.forEach($scope.lists, function (item) {
+            var listName = item.listArr;
+            arrList.push(listName);
+            $scope[listName] = [];
+          });
+        });
+    }
 
-    /** DashBoard API Hit **/
+    function loadPosts(){
+      Post.getPosts({boardId:boardId}, function (posts) {
+        $scope.defaultList = posts;
+      });
+    };
 
-        /*$http({
-            url: "http://localhost:3000/getLandingFeed/" + presentUser.userId + "/0",
-            method: "GET",
-            crossDomain : true
-        }).success(function(data,status,headers,config){
-            if(data.message == "Success") {
-                $scope.users=data;
-            }else{
-                $scope.message = data.message;
-            }
-        }).error(function(data,status,headers,config){
-            console.log("Error In getLandingFeed",data);
-            $scope.message = data.message;
-        });*/
+    $scope.dropCallback = function(event, ui) {
+      for(var i=0;i<arrList.length;i++){
+        var listName = arrList[i];
+        console.log($scope[listName]);
+        var length = $scope[listName].length;
+        if(length){
+          length = length+1;
+          console.log("$$$$$$$$$$$$$",listName);
+        }
+      }
+      console.log('hey, you dumped me :-(' , ui);
+    };
 
-
-    /*** milestones Show API Hit ***/
-
-       /* $http({
-            url: "http://localhost:3000/webLandingPage/" + presentUser.userId,
-            method: "GET",
-            crossDomain : true
-        }).success(function(data,status,headers,config){
-                $scope.listMilestones = data;
-        }).error(function(data,status,headers,config){
-            console.log("Error In webLandingPage",data);
-            $scope.message = data.message;
-        });*/
-
+    $scope.error = false;
+    var presentUser = $rootScope.currentUser;
 
   /*  } else {
         $location.path("/login");
         $scope.error = true;
     }*/
 
-});
+}]);

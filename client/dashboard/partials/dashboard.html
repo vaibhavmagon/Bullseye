@@ -1,62 +1,129 @@
 <div id="wrapper" ng-controller="DashBoardCtrl">
     <div class="container">
-        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-        <!--<div class="col-md-1" id="steps" ng-repeat="timeRange in timeRanges track by $index">
-            <a ng-click="activeTimeRangeFunction(timeRange)" class="step {{timeRange.completeness}}" data-desc="{{timeRange.name}}">{{timeRange.quarter}}</a>
-        </div>
-        <div class="row">
-            <h1>{{ activeTimeRange.name }}</h1>
-        </div>-->
-        <div class="row ng-cloak">
-            <div class="col-md-3">
-                <div class="row">
-                    <h4>In Discussion</h4>
-                </div>
-                <div class="row form-inline thumbnail" style="text-align: center;">
-                    <div class="btn btn-droppable" ng-repeat="item in list5" data-drop="true" ng-model='list5' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=list5])'}"  jqyoui-droppable="{index: {{$index}}}">
-                        <a ng-dblclick="editMilestone(item)" class="btn btn-info btn-draggable" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list5" jqyoui-draggable="{index: {{$index}},placeholder:true,animate:true}" ng-hide="!item.title">{{item.title}}</a>
-                    </div>
-                </div>
+        <div call="row">
+          <div class="col-md-12">
+            <div class="col-md-6">
+              <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#myModal">
+                Add List
+              </button>
             </div>
-            <ul class="col-md-9 scrum">
-                <li class="col-md-4">
+            <div class="col-md-6">
+              <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#myModal2">
+                Add Post
+              </button>
+            </div>
+          </div>
+        </div>
+        <hr style="margin-top:25px;margin-bottom:25px;">
+        <div class="row ng-cloak">
+            <ul class="col-md-3 scrum" ng-repeat="list in lists track by $index">
+                <li class="col-md-12">
                     <div class="row">
-                        <div class="col-md-12">
-                            <h4>Finalized</h4>
+                        <div class="col-md-12" style="background-color: lightgrey;">
+                            <div class="col-md-10">
+                              <h4>{{ list.listName }}</h4>
+                            </div>
+                            <div class="col-md-2">
+                              <button style="margin-top:10px;" ng-click="deleteList(list)" class="btn btn-danger btn-xs">DEL</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="thumbnail" data-drop="true" ng-model='list1' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=list1])'}" jqyoui-droppable="{multiple:true}">
-                        <div class="caption">
-                            <a ng-dblclick="editMilestone(item)" class="btn btn-info btn-draggable" ng-repeat="item in list1" ng-show="item.title" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list1" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.title}}</a>
-                        </div>
+                    <div ng-if="list.listArr == 'list1'" class="row form-inline thumbnail" style="text-align: center;">
+                      <div class="btn btn-droppable" ng-repeat="item in defaultList" data-drop="true" ng-model='defaultList' jqyoui-droppable="{index: {{$index}},onDrop:'dropCallback'}">
+                        <a ng-dblclick="editMilestone(item)" class="btn btn-info btn-draggable" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="defaultList" jqyoui-draggable="{index: {{$index}},placeholder:true,animate:true}" ng-hide="!item.title">{{item.title}}</a>
+                      </div>
                     </div>
-                </li>
-                <li class="col-md-4">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h4>Development</h4>
-                        </div>
+                    <div ng-if="list.listArr == 'list2'" class="row form-inline thumbnail" data-drop="true" ng-model="list1" jqyoui-droppable="{multiple:true,onDrop:'dropCallback'}">
+                      <div class="caption">
+                        <a ng-dblclick="editMilestone(item)" class="btn btn-info btn-draggable" ng-repeat="item in list1 track by $index" ng-show="item.title" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list1" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.title}}</a>
+                      </div>
                     </div>
-                    <div class="thumbnail" data-drop="true" ng-model='list2' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=list2])'}"  jqyoui-droppable="{multiple:true}">
-                        <div class="caption">
-                            <a ng-dblclick="editMilestone(item)" class="btn btn-info btn-draggable" ng-repeat="item in list2" ng-show="item.title" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list2" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.title}}</a>
-                        </div>
+                    <div ng-if="list.listArr == 'list3'" class="row form-inline thumbnail" data-drop="true" ng-model="list2" jqyoui-droppable="{multiple:true,onDrop:'dropCallback'}">
+                      <div class="caption">
+                        <a ng-dblclick="editMilestone(item)" class="btn btn-info btn-draggable" ng-repeat="item in list2 track by $index" ng-show="item.title" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list2" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.title}}</a>
+                      </div>
                     </div>
-                </li>
-                <li class="col-md-4">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h4>Achievements</h4>
-                        </div>
-                    </div>
-                    <div class="thumbnail" data-drop="true" ng-model='list3' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=list3])'}"  jqyoui-droppable="{multiple:true}">
-                        <div class="caption">
-                            <a ng-dblclick="editMilestone(item)" class="btn btn-info btn-draggable" ng-repeat="item in list3" ng-show="item.title" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list3" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.title}}</a>
-                        </div>
+                    <div ng-if="list.listArr == 'list4'" class="row form-inline thumbnail" data-drop="true" ng-model="list3" jqyoui-droppable="{multiple:true,onDrop:'dropCallback'}">
+                      <div class="caption">
+                        <a ng-dblclick="editMilestone(item)" class="btn btn-info btn-draggable" ng-repeat="item in list3 track by $index" ng-show="item.title" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list3" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.title}}</a>
+                      </div>
                     </div>
                 </li>
             </ul>
         </div>
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form novalidate class="simple-form">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Add List</h4>
+          </div>
+          <div class="modal-body">
+              Title: <input type="text" class="form-control" ng-model="listData.name" /><br />
+              Description: <input type="text" class="form-control" ng-model="listData.data" /><br />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="submitList()">Save</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form novalidate class="simple-form">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Add Post</h4>
+            </div>
+            <div class="modal-body">
+              Title: <input type="text" class="form-control" ng-model="postData.name" /><br />
+              Description: <input type="text" class="form-control" ng-model="postData.data" /><br />
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="submitPost()">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form novalidate class="simple-form">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 ng-if="editMode" class="modal-title" id="myModalLabel">Edit Post</h4>
+              <h4 ng-if="!editMode" class="modal-title" id="myModalLabel">Show Post</h4>
+              <div class="row">
+                <div class="col-md-12">
+                  <button class="btn btn-primary pull-left" ng-click="togglePost(true)" ng-if="!editMode">Edit Mode Activate</button>
+                  <button class="btn btn-warning pull-left" ng-click="togglePost(false)" ng-if="editMode">Read Mode Activate</button>
+                </div>
+              </div>
+            </div>
+            <div class="modal-body" ng-if="editMode">
+              Title: <input type="text" class="form-control" ng-model="editPostData.title" /><br />
+              Description: <input type="text" class="form-control" ng-model="editPostData.content" /><br />
+            </div>
+            <div class="modal-body" ng-if="!editMode">
+              Title: <label>{{ editPostData.title }}</label><br />
+              Description: <label>{{ editPostData.content }}</label><br />
+              Stage: <label>{{ editPostData.stage }}</label><br />
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button ng-if="editMode" type="button" class="btn btn-primary" data-dismiss="modal" ng-click="editSavePost(editPostData)">Save Edit</button>
+              <button ng-if="editMode" type="button" class="btn btn-primary" data-dismiss="modal" ng-click="deletePost(editPostData)">Delete</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
 </div>
 

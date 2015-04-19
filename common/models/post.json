@@ -1,26 +1,31 @@
 {
-  "name": "user",
-  "plural": "users",
+  "name": "post",
+  "plural": "posts",
   "base": "PersistedModel",
   "idInjection": true,
   "mongodb": {
-    "collection": "User"
+    "collection": "Post"
   },
   "properties": {
-    "email": {
+    "title": {
       "type": "string",
       "required": true
     },
-    "password": {
-      "type": "string",
-      "required": true
-    },
-    "name": {
+    "content": {
       "type": "string"
+    },
+    "boardId":{
+      "type": "string",
+      "required": true
+    },
+    "stage": {
+      "type": "string",
+      "required": true
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+  },
   "acls": [],
   "methods": []
 }

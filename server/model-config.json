@@ -29,5 +29,13 @@
   "user": {
     "dataSource": "trelloDb",
     "public": true
+  },
+  "post": {
+    "dataSource": "trelloDb",
+    "public": true
+  },
+  "list": {
+    "dataSource": "trelloDb",
+    "public": true
   }
 }
