@@ -8,10 +8,15 @@ This is a Milestone achievement Tool Primarly made for organizations.
 3. MongoDb ( db Name: trelloDb)
 [ DB dump present in root folder]
 
+#To start:
+
+1. npm install -g strongloop
+2. bower install
+
 #To Login:
 
-email: demo@gmail.com
-password: demo
+1. email: demo@gmail.com
+2. password: demo
 
 
 
