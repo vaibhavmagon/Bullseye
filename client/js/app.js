@@ -3,7 +3,7 @@ var milestonesApp = angular.module('milestonesApp', ['dndLists','ngResource','lb
 
 milestonesApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider,$httpProvider) {
     $routeProvider
-        .when("/", {redirectTo: "/dashBoard"}) //login
+        .when("/", {redirectTo: "/dashBoard"})
         .when("/dashBoard", {templateUrl: "dashboard/partials/dashboard.html", controller: "DashBoardCtrl"})
         .when("/login", {templateUrl: "login/partials/login.html", controller: "LoginCtrl"})
         .otherwise('/');

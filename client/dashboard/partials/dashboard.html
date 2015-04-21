@@ -1,20 +1,29 @@
 <div id="wrapper" ng-controller="DashBoardCtrl">
     <div class="container">
         <div call="row">
-          <div class="col-md-12">
-            <div class="col-md-6">
-              <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#myModal">
+          <div class="col-md-12" style="margin-top:20px;margin-bottom:10px;margin-left:-40px;">
+            <div class="col-md-2">
+              <button type="button" class="btn btn-primary btn-md pull-left" data-toggle="modal" data-target="#myModal">
                 Add List
               </button>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-10">
+              <label> This adds Lists to the board. At max 4 lists can be added </label>
+            </div>
+          </div>
+        </div>
+        <div call="row">
+          <div class="col-md-12" style="margin-top:10px;margin-bottom:20px;margin-left:-40px;">
+            <div class="col-md-2">
               <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#myModal2">
                 Add Post
               </button>
             </div>
+            <div class="col-md-10">
+              <label> This adds new posts to the lists. Double Click on Posts enables Edit/Delete/Show Options.</label>
+            </div>
           </div>
         </div>
-        <hr style="margin-top:25px;margin-bottom:25px;">
         <div class="row ng-cloak">
             <ul class="col-md-3 scrum" ng-repeat="list in lists track by $index">
                 <li class="col-md-12">
@@ -28,9 +37,9 @@
                             </div>
                         </div>
                     </div>
-                    <div ng-if="list.listArr == 'list1'" class="row form-inline thumbnail" style="text-align: center;">
-                      <div class="btn btn-droppable" ng-repeat="item in defaultList" data-drop="true" ng-model='defaultList' jqyoui-droppable="{index: {{$index}},onDrop:'dropCallback(list,item)'}">
-                        <a ng-click="itemInfo(item)" ng-dblclick="editMilestone(item)" class="btn btn-info btn-draggable" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="defaultList" jqyoui-draggable="{index: {{$index}},placeholder:true,animate:true}" ng-hide="!item.title">{{item.title}}</a>
+                    <div ng-if="list.listArr == 'list1'" class="row form-inline thumbnail" data-drop="true" ng-model="defaultList" jqyoui-droppable="{multiple:true,onDrop:'dropCallback(list,item)'}">
+                      <div class="caption">
+                        <a ng-click="itemInfo(item)" ng-dblclick="editMilestone(item)" class="btn btn-info btn-draggable" ng-repeat="item in defaultList track by $index" ng-show="item.title" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="defaultList" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.title}}</a>
                       </div>
                     </div>
                     <div ng-if="list.listArr == 'list2'" class="row form-inline thumbnail" data-drop="true" ng-model="list1" jqyoui-droppable="{multiple:true,onDrop:'dropCallback(list,item)'}">
@@ -114,7 +123,6 @@
             <div class="modal-body" ng-if="!editMode">
               Title: <label>{{ editPostData.title }}</label><br />
               Description: <label>{{ editPostData.content }}</label><br />
-              Stage: <label>{{ editPostData.stage }}</label><br />
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

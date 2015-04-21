@@ -1,7 +1,18 @@
-milestonesApp.controller("LoginCtrl", function($rootScope, $scope, $http, $location) {
+milestonesApp.controller("LoginCtrl", ['$rootScope','$scope', '$routeParams', 'User','List', 'Post', '$location','$http','$parse',
+  function($rootScope,$scope,$routeParams,User,List,Post,$location,$http,$parse) {
 
-    var authenticate = function (credentials, callback) {
-        $http.get('http://loaclhost:3000/validateUser/'+credentials.username+'/'+credentials.password).success(function (data) {
+    $scope.authenticate = function (credentials, callback) {
+        var obj = {email:credentials.email,password:credentials.password};
+        User.login(obj,function(err,user){
+          if(err){
+            $rootScope.authenticated = false;
+            callback && callback();
+          }
+          console.log("***********",user);
+          $rootScope.authenticated = true;
+          $rootScope.currentUser = user;
+        });
+        /*$http.get('http://loaclhost:3000/loginUser/'+credentials.email+'/'+credentials.password).success(function (data) {
             if(data.message == "Success") {
                 $rootScope.authenticated = true;
                 $rootScope.currentUser = data;
@@ -12,17 +23,16 @@ milestonesApp.controller("LoginCtrl", function($rootScope, $scope, $http, $locat
         }).error(function () {
             $rootScope.authenticated = false;
             callback && callback();
-        });
+        });*/
     };
 
-    $scope.credentials = {username:"",password:""};
+    $scope.credentials = {email:"",password:""};
     $scope.login = function () {
-        authenticate($scope.credentials, function () {
+        $scope.authenticate($scope.credentials, function () {
             if ($rootScope.authenticated == true) {
                 $location.path("/dashBoard");
                 $scope.error = false;
             } else {
-                /*$location.path("/login");*/
                 $location.path("/dashBoard");
                 $scope.error = true;
             }
@@ -34,4 +44,4 @@ milestonesApp.controller("LoginCtrl", function($rootScope, $scope, $http, $locat
         $location.path("/login");
         $scope.error = false;
     };
-});
+}]);

@@ -21,6 +21,14 @@
   },
   "validations": [],
   "relations": {},
-  "acls": [],
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY",
+      "accessType": "*",
+      "property": "loginUser"
+    }
+  ],
   "methods": []
 }
