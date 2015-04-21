@@ -1,0 +1,1 @@
+{ "options" : { "create" : "List" }, "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "ns" : "trelloDb.List", "name" : "_id_" } ] }
