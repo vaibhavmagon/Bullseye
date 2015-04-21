@@ -14,7 +14,7 @@
     "content": {
       "type": "string"
     },
-    "boardId":{
+    "boardId": {
       "type": "string",
       "required": true
     },

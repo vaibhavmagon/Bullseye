@@ -1,21 +1,12 @@
-milestonesApp.controller("LoginCtrl", ['$rootScope','$scope', '$routeParams', 'User','List', 'Post', '$location','$http','$parse',
-  function($rootScope,$scope,$routeParams,User,List,Post,$location,$http,$parse) {
+milestonesApp.controller("LoginCtrl", ['$rootScope','$scope', '$routeParams', 'TrelloUser','List', 'Post', '$location','$http','$parse',
+  function($rootScope,$scope,$routeParams,TrelloUser,List,Post,$location,$http,$parse) {
 
     $scope.authenticate = function (credentials, callback) {
         var obj = {email:credentials.email,password:credentials.password};
-        User.login(obj,function(err,user){
-          if(err){
-            $rootScope.authenticated = false;
-            callback && callback();
-          }
-          console.log("***********",user);
-          $rootScope.authenticated = true;
-          $rootScope.currentUser = user;
-        });
-        /*$http.get('http://loaclhost:3000/loginUser/'+credentials.email+'/'+credentials.password).success(function (data) {
-            if(data.message == "Success") {
+        $http.get('http://localhost:3000/api/trelloUsers/loginUser/'+credentials.email+'/'+credentials.password).success(function (data) {
+            if(data.length > 0) {
                 $rootScope.authenticated = true;
-                $rootScope.currentUser = data;
+                $rootScope.currentUser = data[0];
             } else {
                 $rootScope.authenticated = false;
             }
@@ -23,7 +14,7 @@ milestonesApp.controller("LoginCtrl", ['$rootScope','$scope', '$routeParams', 'U
         }).error(function () {
             $rootScope.authenticated = false;
             callback && callback();
-        });*/
+        });
     };
 
     $scope.credentials = {email:"",password:""};
@@ -33,7 +24,7 @@ milestonesApp.controller("LoginCtrl", ['$rootScope','$scope', '$routeParams', 'U
                 $location.path("/dashBoard");
                 $scope.error = false;
             } else {
-                $location.path("/dashBoard");
+                $location.path("/login");
                 $scope.error = true;
             }
         });

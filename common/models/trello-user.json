@@ -1,10 +1,10 @@
 {
-  "name": "user",
-  "plural": "users",
+  "name": "trelloUser",
+  "plural": "trelloUsers",
   "base": "PersistedModel",
   "idInjection": true,
   "mongodb": {
-    "collection": "User"
+    "collection": "TrelloUser"
   },
   "properties": {
     "email": {

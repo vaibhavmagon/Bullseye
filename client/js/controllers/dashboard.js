@@ -1,7 +1,10 @@
-milestonesApp.controller("DashBoardCtrl", ['$rootScope','$scope', '$routeParams', 'User','List', 'Post', '$location','$http','$parse',
-  function($rootScope,$scope,$routeParams,User,List,Post,$location,$http,$parse) {
+milestonesApp.controller("DashBoardCtrl", ['$rootScope','$scope', '$routeParams', 'TrelloUser','List', 'Post', '$location','$http','$parse',
+  function($rootScope,$scope,$routeParams,TrelloUser,List,Post,$location,$http,$parse) {
 
-    /*if ($rootScope.authenticated == true) {*/
+    if ($rootScope.authenticated == true) {
+
+      $scope.error = false;
+      var presentUser = $rootScope.currentUser;
 
       $scope.defaultList = []; //default List Holder
       $scope.lists = []; //total List Holder
@@ -135,12 +138,9 @@ milestonesApp.controller("DashBoardCtrl", ['$rootScope','$scope', '$routeParams'
         });
       };
 
-      $scope.error = false;
-      var presentUser = $rootScope.currentUser;
-
-    /*} else {
+    } else {
         $location.path("/login");
         $scope.error = true;
-    }*/
+    }
 
 }]);

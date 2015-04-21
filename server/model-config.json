@@ -37,5 +37,9 @@
   "list": {
     "dataSource": "trelloDb",
     "public": true
+  },
+  "trelloUser": {
+    "dataSource": "trelloDb",
+    "public": true
   }
 }
