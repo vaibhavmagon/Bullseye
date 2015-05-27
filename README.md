@@ -13,6 +13,9 @@ This is a Milestone achievement Tool Primarly made for organizations.
 1. npm install -g strongloop
 2. bower install
 
+#Db Setup:
+mongorestore --collection (Collection Name) --db (db name) dump/trelloDb/(Collection Name).bson
+
 #To Login:
 
 1. email: demo@gmail.com
