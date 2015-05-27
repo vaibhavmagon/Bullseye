@@ -1,5 +1,5 @@
 'use strict';
-var milestonesApp = angular.module('milestonesApp', ['ngResource','lbServices','ngRoute','ui.bootstrap','ngDragDrop','xeditable']);
+var milestonesApp = angular.module('milestonesApp', ['ngResource','lbServices','ngRoute','ui.bootstrap','ngDragDrop','xeditable','ipCookie']);
 
 milestonesApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider,$httpProvider) {
     $routeProvider
@@ -10,3 +10,12 @@ milestonesApp.config(['$routeProvider', '$locationProvider', function ($routePro
 }]);
 
 
+milestonesApp.run(function($rootScope,ipCookie){
+  if(ipCookie('bullseyeCookie')){
+    $rootScope.authenticated = true;
+    var data = localStorage.getItem("lastLogin");
+    $rootScope.currentUser = JSON.parse(data);
+  }else{
+    $rootScope.authenticated = false;
+  }
+});
