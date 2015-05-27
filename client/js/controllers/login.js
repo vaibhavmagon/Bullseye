@@ -1,11 +1,14 @@
-milestonesApp.controller("LoginCtrl", ['$rootScope','$scope', '$routeParams', 'TrelloUser','List', 'Post', '$location','$http','$parse',
-  function($rootScope,$scope,$routeParams,TrelloUser,List,Post,$location,$http,$parse) {
+milestonesApp.controller("LoginCtrl", ['$rootScope','$scope', '$routeParams', 'TrelloUser','List', 'Post', '$location','$http','$parse','ipCookie',
+  function($rootScope,$scope,$routeParams,TrelloUser,List,Post,$location,$http,$parse,ipCookie) {
 
     $scope.authenticate = function (credentials, callback) {
         $http.get('http://localhost:3000/api/trelloUsers/loginUser/'+credentials.email+'/'+credentials.password).success(function (data) {
-            if(data.length > 0) {
+          if(data.length > 0) {
                 $rootScope.authenticated = true;
                 $rootScope.currentUser = data[0];
+                var rString = randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
+                ipCookie('bullseyeCookie',rString);
+                localStorage.setItem('lastLogin', JSON.stringify(data[0]));
             } else {
                 $rootScope.authenticated = false;
             }
@@ -20,7 +23,7 @@ milestonesApp.controller("LoginCtrl", ['$rootScope','$scope', '$routeParams', 'T
     $scope.login = function () {
         $scope.authenticate($scope.credentials, function () {
             if ($rootScope.authenticated == true) {
-                $location.path("/dashBoard");
+                $location.path("/dashboard");
                 $scope.error = false;
             } else {
                 $location.path("/login");
@@ -30,8 +33,18 @@ milestonesApp.controller("LoginCtrl", ['$rootScope','$scope', '$routeParams', 'T
     };
 
     $scope.logout = function () {
-        $rootScope.authenticated = false;
-        $location.path("/login");
-        $scope.error = false;
+      $rootScope.authenticated = false;
+      ipCookie.remove('bullseyeCookie');
+      localStorage.removeItem('lastLogin');
+      $location.path("/login");
+      $scope.error = false;
     };
+
+    /***************** Generic Function ***************/
+
+    function randomString(length, chars) {
+      var result = '';
+      for (var i = length; i > 0; --i) result += chars[Math.round(Math.random() * (chars.length - 1))];
+      return result;
+    }
 }]);

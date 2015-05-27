@@ -1,9 +1,12 @@
-milestonesApp.controller("NavBarCtrl",['$scope', '$rootScope','$http','$location',function($rootScope,$scope, $http,$location) {
+milestonesApp.controller("NavBarCtrl",['$scope', '$rootScope','$http','$location','ipCookie',function($rootScope,$scope, $http,$location,ipCookie) {
 
-    $scope.logout = function () {
-        $rootScope.authenticated = false;
-        $rootScope.currentUser = {};
-        $location.path("/login");
-    };
+  $scope.logout = function () {
+    $rootScope.authenticated = false;
+    ipCookie.remove('bullseyeCookie');
+    localStorage.removeItem('lastLogin');
+    $location.path("/login");
+    $scope.error = false;
+  };
+
 }]);
 

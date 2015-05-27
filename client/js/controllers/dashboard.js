@@ -1,8 +1,7 @@
-milestonesApp.controller("DashBoardCtrl", ['$rootScope','$scope', '$routeParams', 'TrelloUser','List', 'Post', '$location','$http','$parse',
-  function($rootScope,$scope,$routeParams,TrelloUser,List,Post,$location,$http,$parse) {
+milestonesApp.controller("DashBoardCtrl", ['$rootScope','$scope', '$routeParams', 'TrelloUser','List', 'Post', '$location','$http','$parse','socket',
+  function($rootScope,$scope,$routeParams,TrelloUser,List,Post,$location,$http,$parse,socket) {
 
     if ($rootScope.authenticated == true) {
-
       $scope.error = false;
       var presentUser = $rootScope.currentUser;
 
@@ -27,7 +26,7 @@ milestonesApp.controller("DashBoardCtrl", ['$rootScope','$scope', '$routeParams'
       $scope.listData.name = "";
 
       $scope.submitList=function(){
-        if($scope.lists.length < 4) {
+        if ($scope.lists.length < 4) {
           List.create({
             listName: $scope.listData.name,
             listDescription: $scope.listData.data,
@@ -36,10 +35,14 @@ milestonesApp.controller("DashBoardCtrl", ['$rootScope','$scope', '$routeParams'
             if (err) {
               console.log(err);
             }
-            $scope.lists.push({listName: $scope.listData.name, listDescription: $scope.listData.data, boardId: boardId});
+            $scope.lists.push({
+              listName: $scope.listData.name,
+              listDescription: $scope.listData.data,
+              boardId: boardId
+            });
             $scope.listData = {};
           });
-        }else{
+        } else {
           alert("Maximum Reached!!! Cant be more than 4 lists in one board");
         }
       };
@@ -133,14 +136,45 @@ milestonesApp.controller("DashBoardCtrl", ['$rootScope','$scope', '$routeParams'
 
       $scope.dropCallback = function(event,ui,element,item) {
         var obj = {stage: element.listArr};
+        socket.emit('send old', element.listArr);
         Post.prototype$updateAttributes({id: $scope.activePost.id}, obj, function (posts) {
-          console.log("Updated Post: ",posts)
+          socket.emit('send', posts);
+        });
+        socket.on('old', function(ele){
+          ele= ele.toString();
+          console.log("@@@@@@",ele);
+          if (ele == 'list1') {
+            $scope.defaultList.splice(1,1);
+            console.log("****$scope.defaultList***",$scope.defaultList);
+          } else if (ele == 'list2') {
+            $scope.list1.splice(1,1);
+            console.log("****$scope.list1***",$scope.list1);
+          } else if (ele == 'list3') {
+            $scope.list2.splice(1,1);
+            console.log("***$scope.list2****",$scope.list2);
+          } else if (ele == 'list4') {
+            $scope.list3.splice(1,1);
+            console.log("****$scope.list3***",$scope.list3);
+          }
+          socket.on('new', function(msg){
+            if (msg.stage == 'list1') {
+              /*$scope.defaultList.push(msg);*/
+              $scope.defaultList.splice(0,0,msg);
+            } else if (msg.stage == 'list2') {
+             /* $scope.list1.push(msg);*/
+              $scope.list1.splice(0,0,msg);
+            } else if (msg.stage == 'list3') {
+              /*$scope.list2.push(msg);*/
+              $scope.list2.splice(0,0,msg);
+            } else if (msg.stage == 'list4') {
+              /*$scope.list3.push(msg);*/
+              $scope.list3.splice(0,0,msg);
+            }
+          });
         });
       };
-
     } else {
         $location.path("/login");
         $scope.error = true;
     }
-
 }]);
