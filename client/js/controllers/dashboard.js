@@ -158,16 +158,16 @@ milestonesApp.controller("DashBoardCtrl", ['$rootScope','$scope', '$routeParams'
           }
           socket.on('new', function(msg){
             if (msg.stage == 'list1') {
-              /*$scope.defaultList.push(msg);*/
+              $scope.defaultList.push(msg);
               $scope.defaultList.splice(0,0,msg);
             } else if (msg.stage == 'list2') {
-             /* $scope.list1.push(msg);*/
+              $scope.list1.push(msg);
               $scope.list1.splice(0,0,msg);
             } else if (msg.stage == 'list3') {
-              /*$scope.list2.push(msg);*/
+              $scope.list2.push(msg);
               $scope.list2.splice(0,0,msg);
             } else if (msg.stage == 'list4') {
-              /*$scope.list3.push(msg);*/
+              $scope.list3.push(msg);
               $scope.list3.splice(0,0,msg);
             }
           });
