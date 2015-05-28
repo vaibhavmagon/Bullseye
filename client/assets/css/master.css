@@ -218,3 +218,11 @@ ul.scrum{
 .thumbnail { height: 100% !important; min-height:150px;}
 .btn-droppable { width: 180px; height: 40px; padding-left: 4px; }
 .btn-draggable { width: 160px; }
+
+#messages{
+  max-height: 200px;
+  background: white;
+  overflow-y: auto;
+  border: 1px solid lightgrey;
+  margin-bottom: 0px;
+}

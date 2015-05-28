@@ -103,6 +103,23 @@ milestonesApp.controller("DashBoardCtrl", ['$rootScope','$scope', '$routeParams'
         $scope.editMode = ele;
       }
 
+      var socket = io.connect();
+
+      $('form').submit(function(){
+        var element = $('#m').val();
+        if(element != '') {
+          socket.emit('chat message', element);
+          element = $('#m').val('');
+        }
+        return false;
+      });
+
+      socket.on('new', function(msg){
+        if(msg) {
+          $('#messages').append($('<li>').text(msg));
+        }
+      });
+
       function loadLists(){
         List.getLists({boardId: boardId}, function (lists) {
           $scope.lists = lists;

@@ -2,7 +2,7 @@ milestonesApp.controller("LoginCtrl", ['$rootScope','$scope', '$routeParams', 'T
   function($rootScope,$scope,$routeParams,TrelloUser,List,Post,$location,$http,$parse,ipCookie) {
 
     $scope.authenticate = function (credentials, callback) {
-        $http.get('http://localhost:3000/api/trelloUsers/loginUser/'+credentials.email+'/'+credentials.password).success(function (data) {
+        $http.get('/api/trelloUsers/loginUser/'+credentials.email+'/'+credentials.password).success(function (data) {
             if(data.length > 0) {
                 $rootScope.authenticated = true;
                 $rootScope.currentUser = data[0];
