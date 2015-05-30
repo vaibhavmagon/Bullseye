@@ -16,7 +16,7 @@
       "required": true
     },
     "boardId": {
-      "type": "number",
+      "type": "string",
       "required": true
     },
     "users":{

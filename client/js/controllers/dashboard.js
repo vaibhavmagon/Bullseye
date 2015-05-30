@@ -5,8 +5,7 @@ milestonesApp.controller("DashBoardCtrl", ['$rootScope','$scope', '$routeParams'
 
       $scope.error = false;
       var presentUser = $rootScope.currentUser;
-      var boardId = "1"; // By Default Taking Only One Board.
-      DetailPage(boardId);
+      var boardId;
 
       var socket = io.connect();
       $('form').submit(function(){
@@ -25,10 +24,16 @@ milestonesApp.controller("DashBoardCtrl", ['$rootScope','$scope', '$routeParams'
 
       Board.getBoards({email: $rootScope.currentUser.email}, function (boards) {
         $scope.boards = boards;
+        $scope.selectedBoard = boards[0];
+        boardFunc(boards[0]);
       });
 
       $scope.boardIdVal = function(board){
-        console.log("$$$$$$$",board);
+        $scope.selectedBoard = board;
+        boardFunc(board);
+      };
+
+      function boardFunc(board){
         if(board){
           boardId = board.boardId;
         }else{

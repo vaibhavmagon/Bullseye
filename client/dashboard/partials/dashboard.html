@@ -3,7 +3,12 @@
         <div call="row">
           <div class="col-md-12" style="margin-top:20px;margin-bottom:10px;margin-left:-40px;">
             <div class="col-md-12">
-              <h3> Boards Available for {{ currentUser.name }}</h3>
+              <div class="pull-left">
+                <h3> Boards Available for {{ currentUser.name }}</h3>
+              </div>
+              <div class="pull-right">
+                 <h3>{{ selectedBoard.boardName }}<h3>
+              </div>
             </div>
             <br/>
             <div class="col-md-2" ng-repeat="board in boards">
