@@ -41,5 +41,9 @@
   "trelloUser": {
     "dataSource": "trelloDb",
     "public": true
+  },
+  "board": {
+    "dataSource": "trelloDb",
+    "public": true
   }
 }

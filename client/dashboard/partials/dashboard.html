@@ -2,6 +2,20 @@
     <div class="container">
         <div call="row">
           <div class="col-md-12" style="margin-top:20px;margin-bottom:10px;margin-left:-40px;">
+            <div class="col-md-12">
+              <h3> Boards Available for {{ currentUser.name }}</h3>
+            </div>
+            <br/>
+            <div class="col-md-2" ng-repeat="board in boards">
+              <button type="button" class="btn btn-success btn-md pull-left" ng-click="boardIdVal(board)">
+                {{ board.boardName }}
+              </button>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div call="row">
+          <div class="col-md-12" style="margin-top:20px;margin-bottom:10px;margin-left:-40px;">
             <div class="col-md-2">
               <button type="button" class="btn btn-primary btn-md pull-left" data-toggle="modal" data-target="#myModal">
                 Add List

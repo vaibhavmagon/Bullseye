@@ -1,0 +1,38 @@
+{
+  "name": "board",
+  "plural": "boards",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "mongodb": {
+    "collection": "Board"
+  },
+  "properties": {
+    "boardName": {
+      "type": "string",
+      "required": true
+    },
+    "boardDesc": {
+      "type": "string",
+      "required": true
+    },
+    "boardId": {
+      "type": "number",
+      "required": true
+    },
+    "users":{
+      "type": [
+        "string"
+      ]
+    }
+  },
+  "validations": [],
+  "relations": {
+    "posts": {
+      "type": "hasMany",
+      "model": "posts",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": []
+}
