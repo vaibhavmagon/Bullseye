@@ -106,7 +106,7 @@ milestonesApp.controller("DashBoardCtrl", ['$rootScope','$scope', '$routeParams'
       var socket = io.connect();
 
       $('form').submit(function(){
-        var element = $('#m').val();
+        var element = $('#m').val().trim();
         if(element != '') {
           socket.emit('chat message', element);
           element = $('#m').val('');
