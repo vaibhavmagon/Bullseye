@@ -1,0 +1,1 @@
+{ "options" : { "create" : "Board" }, "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "ns" : "trelloDb.Board", "name" : "_id_" } ] }
